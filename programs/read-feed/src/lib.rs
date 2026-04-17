@@ -52,8 +52,11 @@ pub mod basic_oracle_example {
 pub struct ReadOracleData<'info> {
     /// The canonical oracle account containing verified quote data
     /// The address constraint ensures this is the correct canonical account
-    #[account(address = quote_account.canonical_key(&default_queue()))]
+    #[account(address = quote_account.canonical_key(&default_queue(), &owner.key))]
     pub quote_account: Box<Account<'info, SwitchboardQuote>>,
+
+    /// CHECK: owner account should just be default wallet
+    pub owner: UncheckedAccount<'info>,
 
     /// System variables required for quote verification
     pub sysvars: Sysvars<'info>,
